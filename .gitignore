@@ -1,0 +1,13 @@
+# Ignore everything by default
+*
+!*/
+
+# Keep Git metadata and this file
+!.gitignore
+
+# Allow the notebook, dataset, model, scaler, and Markdown files
+!*.ipynb
+!movies.csv
+!model.pkl
+!scaler.pkl
+!*.md
