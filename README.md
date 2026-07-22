@@ -54,7 +54,7 @@ This project combines a **content-based movie recommender system** with a full *
 1. Install dependencies: `pip install numpy pandas matplotlib seaborn scikit-learn xgboost`
 2. Place `movies.csv` in the project directory
 3. Run the notebook cells in order (Phase 1 → Phase 8)
-4. Trained model is saved as `best_rf_model.pkl`, scaler as `scaler.pkl`
+4. Trained model is saved as `model.pkl`, scaler as `scaler.pkl`
 
 ## Loading the Saved Model
 ```python
