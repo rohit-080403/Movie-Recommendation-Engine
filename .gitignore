@@ -11,3 +11,9 @@
 !model.pkl
 !scaler.pkl
 !*.md
+!requirements.txt
+!/tests/
+!/tests/test_data.py
+!/.github/
+!/.github/workflows/
+!/.github/workflows/*.yml
