@@ -26,5 +26,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - run: python --version
+
+      - name: Show installed libraries
+        run: pip list
+
       - name: Run tests
         run: pytest -v
