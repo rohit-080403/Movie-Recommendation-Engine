@@ -1,7 +1,7 @@
 # Movie Recommendation & Success Prediction System
 
 ## Overview
-This project combines a **content-based movie recommender system** with a full **machine learning pipeline** to predict whether a movie will be commercially successful (a "hit"), using the TMDB 5000 Movies dataset. It demonstrates data analysis, multiple supervised learning algorithms, cross-validation, boosting, unsupervised clustering, and dimensionality reduction on a single dataset.
+This project combines a **content-based movie recommender system** with a full **machine learning pipeline** to predict whether a movie will be commercially successful (a "hit"), using the TMDB 5000 Movies dataset. It demonstrates data analysis, multiple supervised learning algorithms, cross-validation, boosting, unsupervised clustering, and dimensionality reduction on the single dataset.
 
 ## Dataset
 `movies.csv` — 4803 movies, 24 columns including budget, revenue, genres, keywords, cast, crew, director, popularity, vote_average, vote_count, runtime, and release_date.
