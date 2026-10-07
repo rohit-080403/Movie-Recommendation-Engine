@@ -13,4 +13,3 @@ def test_movies_csv_loads():
     df = pd.read_csv(ROOT / "movies.csv")
     assert len(df) > 0
     assert len(df.columns) > 1
-
