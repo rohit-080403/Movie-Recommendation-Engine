@@ -1,35 +1,68 @@
-name: CI
+name: CI                                  # label shown in the Actions tab
 
-on : 
+on:                                       # WHEN the workflow runs
   push:
-    branches : [main]
-    paths-ignore :
-      - README.md
-  
+    branches: [main]                      # only pushes to main
+    paths-ignore:
+      - "README.md"                       # README-only changes don't trigger a run
   pull_request:
-    branches : [main]
-    
-  workflow_dispatch:
+    branches: [main]                      # PRs targeting main get checked before merge
+  workflow_dispatch:                      # adds the manual "Run workflow" button
+    inputs:
+      python_version:
+        description: Python version to test with
+        type: choice
+        options: ["3.10", "3.11", "3.12"]
+        default: "3.11"
+      run_tests:
+        description: Run the test step
+        type: boolean
+        default: true
+
+env:
+  PYTHON_VERSION: "3.11"                  # workflow-level variable, readable by every job
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  lint:                                   # job ID, runs first
+    runs-on: ubuntu-latest                # fresh Ubuntu VM, deleted after the job
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4         # download repo (runner starts empty)
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          # manual run: use the dropdown value; push/PR: inputs is empty, so use env
+          python-version: ${{ inputs.python_version || env.PYTHON_VERSION }}
+      - run: pip install flake8
+      - run: flake8 tests                 # style check; any problem fails the job
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+  test:
+    needs: lint                           # waits for lint; skipped if lint fails
+    runs-on: ubuntu-latest                # new machine, so checkout/setup repeat
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python_version || env.PYTHON_VERSION }}
+      - run: pip install -r requirements.txt
 
-      - run: python --version
-
-      - name: Show installed libraries
-        run: pip list
+      - name: Show config
+        env:
+          API_KEY: ${{ secrets.TMDB_API_KEY }}   # secret exposed to this step only
+        run: |
+          echo "Python: $PYTHON_VERSION"
+          echo "Model: ${{ vars.MODEL_NAME }}"
+          echo "Secret printed: $API_KEY"        # logs show *** (masked)
+          echo "Secret length: ${#API_KEY}"
 
       - name: Run tests
-        run: pytest -v
+        # skip only on a manual run where the checkbox was unticked
+        if: github.event_name != 'workflow_dispatch' || inputs.run_tests
+        run: pytest                       # failing test = failing step = red run
+
+  summary:
+    needs: [lint, test]                   # waits for both jobs
+    if: always()                          # runs even if lint or test failed
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "lint: ${{ needs.lint.result }}"    # success / failure / skipped / cancelled
+          echo "test: ${{ needs.test.result }}"
