@@ -14,4 +14,3 @@ def test_movies_csv_loads():
     assert len(df) > 0
     assert len(df.columns) > 1
 
-x = 1
