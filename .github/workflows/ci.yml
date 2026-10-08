@@ -76,7 +76,7 @@ jobs:
       - name: Package model files
         run: |
           mkdir dist
-          cp model.pkl scaler.pkl movies.csv dist/
+          cp model.pkl scaler.pkl movies.csv movies_features.csv dist/
           echo "commit: ${{ github.sha }}" > dist/BUILD_INFO.txt
           echo "built:  $(date -u)" >> dist/BUILD_INFO.txt
 

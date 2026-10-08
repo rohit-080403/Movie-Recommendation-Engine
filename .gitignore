@@ -8,6 +8,7 @@
 # Allow the notebook, dataset, model, scaler, and Markdown files
 !*.ipynb
 !movies.csv
+!movies_features.csv
 !model.pkl
 !scaler.pkl
 !*.md

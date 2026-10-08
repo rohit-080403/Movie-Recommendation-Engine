@@ -4,3 +4,6 @@ scikit-learn==1.7.2
 joblib
 nbformat
 pytest
+fastapi==0.142.4
+uvicorn==0.54.0
+httpx==0.28.1
